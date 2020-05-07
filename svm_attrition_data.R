@@ -36,5 +36,8 @@ table(pred,y)
 
 SVM_wrong2<-sum(dsn[,14]!=pred)
 error_rate<-SVM_wrong2/length(dsn[,14])
-error_rate
+error_rate * 100
+
+success_rate = 1 - error_rate
+success_rate * 100
 
