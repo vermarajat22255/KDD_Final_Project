@@ -1,7 +1,7 @@
 
 rm(list=ls())
 
-employee_data <- read.csv (file ="/Users/meghanabhat/Downloads/attrition_data.csv")
+employee_data <- read.csv ("C:\\Users\\sanam\\Documents\\Desk\\CS 513 B\\dataset\\attrition_data.csv", na.strings="?")
 View(employee_data)
 employee_data$TERMINATION_YEAR[!is.na(employee_data$TERMINATION_YEAR)] <- TRUE
 employee_data$TERMINATION_YEAR[is.na(employee_data$TERMINATION_YEAR)] <- FALSE
