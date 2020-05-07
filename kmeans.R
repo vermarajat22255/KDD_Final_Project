@@ -1,7 +1,7 @@
 
 rm(list=ls())
 
-employee_data <- read.csv (file ="/Users/meghanabhat/Downloads/attrition_data.csv")
+employee_data <- read.csv ("C:\\Users\\sanam\\Documents\\Desk\\CS 513 B\\dataset\\attrition_data.csv", na.strings="?")
 View(employee_data)
 employee_data$TERMINATION_YEAR[!is.na(employee_data$TERMINATION_YEAR)] <- TRUE
 employee_data$TERMINATION_YEAR[is.na(employee_data$TERMINATION_YEAR)] <- FALSE
@@ -89,6 +89,15 @@ employee_Data_normalized<-as.data.frame (
 
 
 employee_Data_normalized <- employee_Data_normalized[,-1,-14]
-kmeans <- kmeans(employee_Data_normalized[,-1,-14],2,nstart = 10)
-table(kmeans$cluster,employee_Data_normalized[,1])
+kmeans1 <- kmeans(employee_Data_normalized[,-1,-14],2,nstart = 10)
+str(kmeans1)
+kmeans1$cluster
+table(kmeans1$cluster,employee_Data_normalized[,20])
+
+wrong<-sum(employee_Data_normalized[,20]!=kmeans1$cluster)
+error_rate<-wrong/length(employee_Data_normalized[,20])
+error_rate * 100
+
+successrate <- 1 - error_rate
+successrate * 100
 
