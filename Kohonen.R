@@ -1,9 +1,9 @@
 rm(list=ls())
-install.packages("kohonen")
+#install.packages("kohonen")
 
 library("kohonen")
 
-employee_data <- read.csv (file ="/Users/meghanabhat/Downloads/attrition_data.csv")
+employee_data <- read.csv ("C:\\Users\\sanam\\Documents\\Desk\\CS 513 B\\dataset\\attrition_data.csv", na.strings="?")
 View(employee_data)
 View(employee_data)
 employee_data$TERMINATION_YEAR[!is.na(employee_data$TERMINATION_YEAR)] <- TRUE
@@ -29,5 +29,8 @@ str(employee_data_som)
 employee_data_som$unit.classif
 
 table(cluster = employee_data_som$unit.classif, employee_data[,21])
+
+map1 <- som(as.matrix(training2), grid = somgrid(2,1), alpha = c(0.05, 0.01), radius = 1)
+plot(map1, type = 'changes')
 
 
