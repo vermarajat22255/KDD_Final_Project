@@ -1,13 +1,13 @@
 
 rm(list=ls())
 
-install.packages('e1071', dependencies = TRUE)
+#install.packages('e1071', dependencies = TRUE)
 
 library(e1071)
 library(class) 
 
 
-employee_data <- read.csv (file ="/Users/meghanabhat/Downloads/attrition_data.csv")
+employee_data <- read.csv ("C:\\Users\\sanam\\Documents\\Desk\\CS 513 B\\dataset\\attrition_data.csv", na.strings="?")
 View(employee_data)
 
 employee_data$TERMINATION_YEAR[!is.na(employee_data$TERMINATION_YEAR)] <- TRUE
@@ -49,5 +49,6 @@ print(NB_error_rate*100)
 success_rate <- 1-NB_error_rate
 print(success_rate*100)
 
+plot(category_all)
 
 
