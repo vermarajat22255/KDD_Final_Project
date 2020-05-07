@@ -41,5 +41,8 @@ table(Prediction1,dsn$TERMINATION_YEAR)
 
 dtrees_wrong<-sum(dsn[,14]!=Prediction1)
 error_rate<-dtrees_wrong/length(dsn[,14])
-error_rate
+error_rate * 100
+
+success_rate <- 1 - error_rate
+success_rate * 100
 
