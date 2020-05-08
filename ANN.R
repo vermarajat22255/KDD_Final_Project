@@ -40,8 +40,6 @@ length(ann_cat)
 length(test$STATUS)
 
 table(ann_cat,test$STATUS)
-
-
 wrong <-(test$STATUS != ann_cat)
 error_rate <- sum(wrong)/length(wrong)
 error_rate*100

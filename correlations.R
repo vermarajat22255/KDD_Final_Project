@@ -48,7 +48,7 @@ employee_data[, 27] <- as.numeric(as.character( employee_data[, 27] ))
 
 employee_data1 <- employee_data[,-1]
 employee_data1 <- employee_data1[,-13]
-employee_data1 <- employee_data1[,-19]
+#employee_data1 <- employee_data1[,-19]
 
 correlations <- cor(employee_data1,method="pearson")
 corrplot(correlations, number.cex = .9, method = "circle", type = "full", tl.cex=0.8,tl.col = "black")

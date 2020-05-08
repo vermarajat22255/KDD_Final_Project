@@ -40,7 +40,10 @@ rpart.plot(CART_class)
 CART_predict<-predict(CART_class,test, type="class")
 CART_wrong2<-sum(test[,14]!=CART_predict)
 CART_error_rate2<-CART_wrong2/length(test[,14])
-CART_error_rate2 
+CART_error_rate2 * 100
+
+CART_success_rate = 1 - CART_error_rate2
+CART_success_rate * 100
 
 library(rpart.plot)
 prp(CART_class)
