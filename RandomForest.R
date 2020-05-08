@@ -3,53 +3,43 @@ rm(list=ls())
 library(randomForest)
 
 file_name <- file.choose()
-attr<- read.csv(file_name,strip.white = TRUE, na.strings = c("","?",NA))
+employee_data<- read.csv(file_name,strip.white = TRUE, na.strings = c("","?",NA))
 
-#Remove unused columns 
-attr<-attr[-1] #employee id
-attr<-attr[-13] #termination year
-attr<- attr[-20] #Job Group
+employee_data[is.na(employee_data)] <- 0 #setting NA value to 0
 
-#Misssing list ----------------
-#Ethnicity 1 missing
-# Referal --> Unknowns 472, NA 445
-#Termination year -> NA 5394
+employee_data$TERMINATION_YEAR<-findInterval(employee_data$TERMINATION_YEAR, c(2008, 2011, 2017))
+employee_data$TERMINATION_YEAR <- as.factor(employee_data$TERMINATION_YEAR)
 
-#Preprocess Ethnicity
-attr$ETHNICITY<-as.numeric(attr$ETHNICITY)
-median(attr$ETHNICITY, na.rm = TRUE)
-attr$ETHNICITY[which(is.na(attr$ETHNICITY))] <- median(attr$ETHNICITY, na.rm = TRUE)
+# Removing Employee ID,JOBCODE,REFERAL_SOURCE,JOB_GROUP column
+dataSet <- subset(employee_data, select = -c(1,4,11,22))
 
-#Termination Year
-#attr[c("TERMINATION_YEAR")][is.na(attr[c("TERMINATION_YEAR")])] <- 0
-#attr$TERMINATION_YEAR <- factor(ifelse(attr$TERMINATION_YEAR>0, "working", "terminated"))
-#is.factor(attr$TERMINATION_YEAR)
+# Removing ANNUAL_RATE column as ANNUAL_RATE and HRLY_RATE column are co-related
+#remove highly correlated variables
+dataSet <- subset(dataSet, select = -c(1))
 
 # Pre process Referal remove NA
-attr<-na.omit(attr)
-View(attr)
-
-#Job group as numeric
-#attr[c("JOB_GROUP")]<-as.numeric(attr$JOB_GROUP)
+#sum(is.na(dataSet))
+dataSet<-na.omit(dataSet)
+View(dataSet)
 
 #Loading 70% data in training dataset
-idx<-sort(sample(nrow(attr),as.integer(.70*nrow(attr))))
-training<-attr[idx,]
+idx<-sort(sample(nrow(dataSet),as.integer(.70*nrow(dataSet))))
+training<-dataSet[idx,]
 
 #Loading 30% in test
-test <- attr[-idx, ]
+test <- dataSet[-idx, ]
 
 #Preparing & Plotting
-
-#cc = training[,c(1,2,3,4,5,6,7,8,9,10,11,12,14,15,16,17,18,19,20,22,23,24,25,26 )];
 fit <- randomForest( STATUS~., data = training, importance=TRUE, ntree=1000)
 importance(fit)
+varImpPlot(fit)
+
 #summary(training$JOB_GROUP)
 prediction<- predict(fit, test)
-table(actual=test[,19],prediction)
-#str(prediction)
+table(actual=test$STATUS,prediction)
+
 wrong<-sum(test$STATUS!=prediction)
-error_rate<-wrong/length(test[,19])
+error_rate<-wrong/length(test$STATUS)
 error_rate *100
 
 successrate <- 1 - error_rate
